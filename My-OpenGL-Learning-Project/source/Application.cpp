@@ -1,5 +1,7 @@
 
 #include"Shader.h"
+#include"VertexBuffer.h"
+#include"IndexBuffer.h"
 
 const unsigned int width = 800;
 const unsigned int height = 600;
@@ -29,39 +31,30 @@ int main()
 	float vertices[] =
 	{
 		//pos          //color
-		-1.0f,-0.5f,  1.0f,0.0f,0.0f,   0.0f,-0.5f,   0.0f,1.0f,0.0f,
-		0.0f,-0.5f,   0.0f,0.0f,1.0f,   1.0f,-0.5f,	  0.0f,0.0f,1.0f,
-		-0.5f,0.5f,   0.0f,1.0f,0.0f,   0.5f ,0.5f,   1.0f,0.0f,0.0f,
+		 -0.5,0.5 , 1.0f,0.0f,0.0f, 
+		 -0.5,-0.5, 0.0f,0.0f,1.0f, //1
+		  0.5,-0.5, 0.0f,1.0f,0.0f,
+		  0.5,0.5 , 0.9f,0.4f,1.0f  //3
 	};
-	unsigned int VBO[2], VAO[2];
-	glGenVertexArrays(1, &VAO[1]);
-	glBindVertexArray(VAO[1]);
+	unsigned int indices[] =
+	{ 1,3,0,
+	  1,3,2
+	};
 
-	glGenBuffers(1, &VBO[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
+	unsigned int  vao;
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	VertexBuffer vbo(20 * sizeof(float), vertices);
 	//for vertex draw
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(5*sizeof (float)));
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(0));
 	glEnableVertexAttribArray(0);
 	//for color filling
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(7 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	glBindVertexArray(0);
 
-
-	glGenVertexArrays(1, &VAO[0]);
-	glBindVertexArray(VAO[0]);
-	glGenBuffers(1, &VBO[0]);
-	glBindBuffer(GL_ARRAY_BUFFER,VBO[0]);
-	glBufferData(GL_ARRAY_BUFFER, 30 * sizeof(float), vertices, GL_STATIC_DRAW);
-	//for vertex draw
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 10 * sizeof(float), NULL);
-	glEnableVertexAttribArray(0);
-	//for color fill
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(float), (void*)(2*sizeof(float)));
-	glEnableVertexAttribArray(1);
-	glBindVertexArray(0);
-
+	IndexBuffer ibo(6, indices);
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -73,11 +66,11 @@ int main()
 
 		
 		glUseProgram(program);
-	    glBindVertexArray(VAO[0]);
-	    glDrawArrays(GL_TRIANGLES, 0, 3);
-		
-		//glBindVertexArray(VAO[1]);
-		//glDrawArrays(GL_TRIANGLES, 0, 3);
+	    glBindVertexArray(vao);
+		ibo.Bind();
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+	   
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
