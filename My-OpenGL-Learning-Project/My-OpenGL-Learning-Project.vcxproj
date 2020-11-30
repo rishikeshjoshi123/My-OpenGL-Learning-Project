@@ -149,11 +149,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application.cpp" />
-    <ClCompile Include="source\BufferLayout.cpp" />
     <ClCompile Include="source\IndexBuffer.cpp" />
-    <ClCompile Include="source\Renderer.cpp" />
     <ClCompile Include="source\Shader.cpp" />
-    <ClCompile Include="source\VertexArray.cpp" />
     <ClCompile Include="source\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,11 +160,8 @@
     <ClInclude Include="Dependencies\glew-2.1.0-win32\glew-2.1.0\include\GL\wglew.h" />
     <ClInclude Include="Dependencies\GLFW\include\glfw3.h" />
     <ClInclude Include="Dependencies\GLFW\include\glfw3native.h" />
-    <ClInclude Include="source\BufferLayout.h" />
     <ClInclude Include="source\IndexBuffer.h" />
-    <ClInclude Include="source\Renderer.h" />
     <ClInclude Include="source\Shader.h" />
-    <ClInclude Include="source\VertexArray.h" />
     <ClInclude Include="source\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
