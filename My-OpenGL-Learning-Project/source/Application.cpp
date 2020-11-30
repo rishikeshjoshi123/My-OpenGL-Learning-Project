@@ -1,19 +1,20 @@
+#include<glew.h>
+#include<glfw3.h>
 
 #include"Shader.h"
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
+#include"Renderer.h"
+#include"VertexArray.h"
+#include"BufferLayout.h"
 
 const unsigned int width = 800;
 const unsigned int height = 600;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	// make sure the viewport matches the new window dimensions; note that width and 
-	// height will be significantly larger than specified on retina displays.
-	glViewport(0, 0, width, height);
-}
 int main()
 {
+	//if (glfwInit() == GLFW_FALSE)
+	//	ASSERT(false);
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(width, height, "Display box", NULL, NULL);
 	if (window == NULL)
@@ -41,20 +42,17 @@ int main()
 	  1,3,2
 	};
 
-	unsigned int  vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
 
 	VertexBuffer vbo(20 * sizeof(float), vertices);
-	//for vertex draw
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(0));
-	glEnableVertexAttribArray(0);
-	//for color filling
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-	glBindVertexArray(0);
+	BufferLayout Layout;
+	Layout.PushLayout(2, GL_FLOAT); //for drawing figure
+	Layout.PushLayout(3, GL_FLOAT);// for colouring
+
+	VertexArray vao(vbo, Layout);
+	vao.Unbind();
 
 	IndexBuffer ibo(6, indices);
+	ibo.Unbind();
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
@@ -66,9 +64,8 @@ int main()
 
 		
 		glUseProgram(program);
-	    glBindVertexArray(vao);
+		vao.Bind();
 		ibo.Bind();
-
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 	   
 		glfwPollEvents();
