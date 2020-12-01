@@ -11,6 +11,9 @@ struct Elements
 	unsigned int m_datatype;
 	bool m_normalised;
 };
+
+unsigned int GetSize(unsigned int type);
+
 class BufferLayout
 {
 private:
@@ -24,6 +27,6 @@ public:
 	//how to use the given buffer data
 	void PushLayout(unsigned int count, unsigned int type);
 
-	std::vector<Elements> GetElements();
+	std::vector<Elements> GetElements() const;
 	unsigned int GetStride();
 };

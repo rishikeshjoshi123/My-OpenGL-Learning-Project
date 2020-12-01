@@ -7,8 +7,9 @@ class VertexArray
 private:
 	unsigned int ID;
 public:
-	VertexArray(VertexBuffer vbo, BufferLayout layout);
+	VertexArray();
+	void AddBufferLayout( VertexBuffer& vbo, BufferLayout& layout);
 	~VertexArray();
-	void Bind();
-	void Unbind();
+	void Bind()const ;
+	void Unbind()const ;
 };

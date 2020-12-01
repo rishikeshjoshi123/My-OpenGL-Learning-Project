@@ -1,17 +1,22 @@
 #include"VertexArray.h"
 
-VertexArray::VertexArray(VertexBuffer vbo, BufferLayout layout)
+
+VertexArray::VertexArray()
 {
 	glGenVertexArrays(1, &ID);
-	glBindVertexArray(ID);
+}
 
-	std::vector<Elements> E = layout.GetElements();
+void VertexArray::AddBufferLayout(VertexBuffer &vbo, BufferLayout &layout)
+{
+	Bind();
+
+	const std::vector<Elements>& e = layout.GetElements();
 	unsigned int offset = 0;
-	for (unsigned int i = 0; i < E.size(); i++)
+	for (unsigned int i = 0; i < e.size(); i++)
 	{
-		glVertexAttribPointer(i, E[i].m_count, E[i].m_datatype, E[i].m_normalised, layout.GetStride(), (void*)(offset));
+		glVertexAttribPointer(i, e[i].m_count, e[i].m_datatype, e[i].m_normalised, layout.GetStride(), (void*)(offset));
 		glEnableVertexAttribArray(i);
-		offset += E[i].m_count;
+		offset += e[i].m_count*GetSize(e[i].m_datatype);
 	}
 }
 
@@ -20,12 +25,12 @@ VertexArray::~VertexArray()
 	glDeleteVertexArrays(1, &ID);
 }
 
-void VertexArray::Bind()
+void VertexArray::Bind() const
 {
 	glBindVertexArray(ID);
 }
 
-void VertexArray::Unbind()
+void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
 }

@@ -48,9 +48,10 @@ int main()
 	Layout.PushLayout(2, GL_FLOAT); //for drawing figure
 	Layout.PushLayout(3, GL_FLOAT);// for colouring
 
-	VertexArray vao(vbo, Layout);
+	VertexArray vao;
+	vao.AddBufferLayout(vbo, Layout);
 	vao.Unbind();
-
+	
 	IndexBuffer ibo(6, indices);
 	ibo.Unbind();
 	

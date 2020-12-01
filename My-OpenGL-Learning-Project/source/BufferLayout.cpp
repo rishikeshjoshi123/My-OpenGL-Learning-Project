@@ -22,7 +22,7 @@ void BufferLayout:: PushLayout(unsigned int count, unsigned int type)
 	}
 }
 
-std::vector<Elements> BufferLayout::GetElements()
+std::vector<Elements> BufferLayout::GetElements() const
 {
 	return  E;
 }
@@ -32,17 +32,29 @@ unsigned int BufferLayout::GetStride()
 	switch (E.back().m_datatype)
 	{
 	case GL_FLOAT:
-		return m_stride * sizeof(GL_FLOAT);
+		return m_stride * GetSize(GL_FLOAT);
 
 	case GL_UNSIGNED_INT:
-		return m_stride * sizeof(GL_UNSIGNED_INT);
+		return m_stride * GetSize(GL_UNSIGNED_INT);
 
 	case GL_UNSIGNED_BYTE:
-		return m_stride * sizeof(GL_UNSIGNED_BYTE);
-	//default:
-		//ASSERT(false);
-		//return 0;
+		return m_stride * GetSize(GL_UNSIGNED_BYTE);
+
 	}
+	//todo: assert false here
+	return 0;
+}
+
+unsigned int GetSize(unsigned int type)
+{
+	switch (type)
+	{
+	case GL_FLOAT:             return 4;
+	case GL_UNSIGNED_INT:      return 4;
+	case GL_UNSIGNED_BYTE:     return 1;
+	}
+	//ToDo: Assert false here
+	return 0;
 }
 
 
