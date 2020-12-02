@@ -25,10 +25,10 @@ void Shader::Unbind() const
 {
     glUseProgram(0);
 }
-void Shader::SetUniform(std::string& name, float v1, float v2, float v3, float v4) const
+void Shader::SetUniform(std::string name, float v1, float v2, float v3, float v4) const
 {
     //location can be -1 also if we declare a uniform and never use it..
-    int location;
+    int location=-1;
     if (dp.find(name) == dp.end())
     {
         int location = glGetUniformLocation(m_ID, name.c_str());

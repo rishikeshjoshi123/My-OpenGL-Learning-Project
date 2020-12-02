@@ -13,8 +13,6 @@ const unsigned int height = 600;
 
 int main()
 {
-	//if (glfwInit() == GLFW_FALSE)
-	//	ASSERT(false);
 	glfwInit();
 	GLFWwindow* window = glfwCreateWindow(width, height, "Display box", NULL, NULL);
 	if (window == NULL)
@@ -26,10 +24,9 @@ int main()
 	glfwMakeContextCurrent(window);
 	glewInit();
 
-	//Shaders Source = GetShaders();
-	//unsigned int program = CreateShaderProgram(Source.vs, Source.fs);
-	std::string path = "Shader\Source.Shader";
-	Shader ShaderProgram(path);
+	
+	std::string path2 = "Shader/Source.shader";
+	Shader ShaderProgram(path2);
 
 
 	float vertices[] =
@@ -60,14 +57,16 @@ int main()
 	//+++++++++++++++++++++++++++++++++++++++++++++++++//
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		PressESCtoClose(window);
-		glClearColor(0.4f, 0.4f, 0.5f,1.0f );
+		glClearColor(0.9f, 0.4f, 0.5f,1.0f );
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		
 		ShaderProgram.Bind();
+		
 		vao.Bind();
 		ibo.Bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);

@@ -25,7 +25,7 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
-	void SetUniform(std::string & name, float v1, float v2, float v3, float v4) const;
+	void SetUniform(std::string  name, float v1, float v2, float v3, float v4) const;
 };
 ShaderSource GetShaders(std::string path);
 unsigned int CreateShaderProgram(std::string, std::string);
