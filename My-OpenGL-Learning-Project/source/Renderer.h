@@ -5,6 +5,10 @@
 #include<iostream>
 #include<string>
 
+#include"VertexArray.h"
+#include"IndexBuffer.h"
+#include"Shader.h"
+
 #define ASSERT(x) if(!(x)) __debugbreak();
 
 //we will wrap every function with errlog ,ex: errlog(function name()). 
@@ -17,3 +21,9 @@ void GLClearError();
 bool GLLogCall(const char* function, const char* file, const int line);
 void PressESCtoClose(GLFWwindow * window);
 
+class Renderer
+{
+public:
+    void Draw(VertexArray& vao, IndexBuffer& ibo, Shader &shader) const;
+    void Clear() const;
+};

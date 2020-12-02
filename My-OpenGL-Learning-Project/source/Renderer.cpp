@@ -1,5 +1,6 @@
 #include"Renderer.h"
 
+
 void GLClearError()
 {
 	while (glGetError() != GL_NO_ERROR);
@@ -23,4 +24,19 @@ void PressESCtoClose(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+}
+
+void Renderer::Draw(VertexArray& vao, IndexBuffer& ibo, Shader& ShaderProgram) const
+{
+	ShaderProgram.Bind();
+	vao.Bind();
+	ibo.Bind();
+	glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, NULL);
+
+}
+
+void Renderer::Clear() const
+{
+	glClearColor(0.9f, 0.4f, 0.5f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }

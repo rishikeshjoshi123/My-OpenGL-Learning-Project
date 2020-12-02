@@ -38,7 +38,8 @@ int main()
 		  0.5,0.5 , 0.9f,0.4f,1.0f  //3
 	};
 	unsigned int indices[] =
-	{ 1,3,0,
+	{ 
+	  1,3,0,
 	  1,3,2
 	};
 
@@ -57,20 +58,14 @@ int main()
 	//+++++++++++++++++++++++++++++++++++++++++++++++++//
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+	Renderer renderer;
 	while (!glfwWindowShouldClose(window))
 	{
-		PressESCtoClose(window);
-		glClearColor(0.9f, 0.4f, 0.5f,1.0f );
-		glClear(GL_COLOR_BUFFER_BIT);
+		
+		renderer.Clear();
+		renderer.Draw(vao, ibo, ShaderProgram);
 
-		
-		ShaderProgram.Bind();
-		
-		vao.Bind();
-		ibo.Bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
-	   
+		PressESCtoClose(window);
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
