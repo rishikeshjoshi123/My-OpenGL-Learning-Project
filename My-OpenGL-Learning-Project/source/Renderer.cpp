@@ -1,6 +1,5 @@
 #include"Renderer.h"
 
-
 void GLClearError()
 {
 	while (glGetError() != GL_NO_ERROR);
@@ -18,4 +17,10 @@ bool GLLogCall(const char* function, const char* file, const int line)
 		return false;
 	}
 	return true;
+}
+
+void PressESCtoClose(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 }

@@ -26,9 +26,12 @@ int main()
 	glfwMakeContextCurrent(window);
 	glewInit();
 
-	Shaders Source = GetShaders();
-	unsigned int program = CreateShaderProgram(Source.vs, Source.fs);
-	
+	//Shaders Source = GetShaders();
+	//unsigned int program = CreateShaderProgram(Source.vs, Source.fs);
+	std::string path = "Shader\Source.Shader";
+	Shader ShaderProgram(path);
+
+
 	float vertices[] =
 	{
 		//pos          //color
@@ -42,21 +45,21 @@ int main()
 	  1,3,2
 	};
 
-
-	VertexBuffer vbo(20 * sizeof(float), vertices);
+//+++++++++++++++++++++++++++++++++++++++//
+	VertexBuffer vbo(sizeof(vertices), vertices);
 	BufferLayout Layout;
 	Layout.PushLayout(2, GL_FLOAT); //for drawing figure
 	Layout.PushLayout(3, GL_FLOAT);// for colouring
-
+	
 	VertexArray vao;
 	vao.AddBufferLayout(vbo, Layout);
 	vao.Unbind();
 	
 	IndexBuffer ibo(6, indices);
 	ibo.Unbind();
+	//+++++++++++++++++++++++++++++++++++++++++++++++++//
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 	while (!glfwWindowShouldClose(window))
 	{
 		PressESCtoClose(window);
@@ -64,7 +67,7 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		
-		glUseProgram(program);
+		ShaderProgram.Bind();
 		vao.Bind();
 		ibo.Bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);

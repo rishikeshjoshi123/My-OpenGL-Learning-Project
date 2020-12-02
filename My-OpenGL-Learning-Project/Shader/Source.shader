@@ -8,12 +8,10 @@ void main()
     gl_Position = vec4(aPos.x, aPos.y, 0, 1);
     sclr = vec4(clr,1);
 }
-
 #fragment shader
 #version 330 core
 out vec4 FragColor;
 in vec4 sclr;
-
 void main()
 {
     FragColor = sclr;

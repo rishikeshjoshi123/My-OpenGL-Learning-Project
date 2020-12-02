@@ -1,7 +1,10 @@
 #pragma once
 
-#include<iostream>
 #include<glew.h>
+#include<glfw3.h>
+#include<iostream>
+#include<string>
+
 #define ASSERT(x) if(!(x)) __debugbreak();
 
 //we will wrap every function with errlog ,ex: errlog(function name()). 
@@ -12,3 +15,5 @@
 
 void GLClearError();
 bool GLLogCall(const char* function, const char* file, const int line);
+void PressESCtoClose(GLFWwindow * window);
+

@@ -1,5 +1,70 @@
 #include"Shader.h"
+std::unordered_map<std::string, int> dp;
 
+
+Shader::Shader(const std::string& filepath)
+	:m_filepath(filepath)
+{
+    std::cout << filepath << " : " << "string path cout in shader constructor \n";
+    ShaderSource source = GetShaders(filepath);
+    std::cout << source.vs << "\n\n" << source.fs << "\n";
+    m_ID = CreateShaderProgram(source.vs, source.fs);
+}
+
+Shader::~Shader()
+{
+    glDeleteProgram(m_ID);
+}
+
+void Shader::Bind() const
+{
+    glUseProgram(m_ID);
+}
+
+void Shader::Unbind() const
+{
+    glUseProgram(0);
+}
+void Shader::SetUniform(std::string& name, float v1, float v2, float v3, float v4) const
+{
+    //location can be -1 also if we declare a uniform and never use it..
+    int location;
+    if (dp.find(name) == dp.end())
+    {
+        int location = glGetUniformLocation(m_ID, name.c_str());
+        dp[name] = location;
+    }
+    else location = dp[name];
+
+    glUniform4f(location, v1, v2, v3, v4);
+}
+
+ShaderSource GetShaders(std::string path)
+{
+    std::cout << path << " : " << "string path cout in GetShader function \n";
+
+    enum shadertype
+    {
+        NONE = -1, Vertex = 0, Fragment = 1
+    };
+    int type = shadertype::NONE;
+
+    std::ifstream IN(path);
+    std::string line;
+    std::stringstream ss[2];
+
+    while (getline(IN, line))
+    {
+        std::cout << line << "\n";
+        if (line.find("#vertex shader") != std::string::npos)
+            type = Vertex;
+        else if (line.find("#fragment shader") != std::string::npos)
+            type = Fragment;
+        else ss[(unsigned int)type] << line << '\n';
+    }
+
+    return { ss[0].str(),ss[1].str() };
+}
 
 unsigned int CreateShaderProgram(std::string VS, std::string FS)
 {
@@ -30,7 +95,7 @@ unsigned int CreateShaderProgram(std::string VS, std::string FS)
     return program;
 }
 
-unsigned int CompileShader(unsigned int type, std::string &source)
+unsigned int CompileShader(unsigned int type, std::string& source)
 {
     unsigned int shader = glCreateShader(type);
     char* src = &source[0];
@@ -54,37 +119,4 @@ unsigned int CompileShader(unsigned int type, std::string &source)
         return 0;
     }
     return shader;
-}
-
-Shaders GetShaders()
-{
-    std::string path = "Shader/Source.shader";
-
-    enum shadertype
-    {
-        NONE = -1, Vertex = 0, Fragment = 1
-    };
-    int type = shadertype::NONE;
-
-    std::ifstream IN(path);
-    std::string line;
-    std::stringstream ss[2];
-
-    while (getline(IN, line))
-    {
-        if (line.find("#vertex shader") != std::string::npos)
-            type = Vertex;
-        else if (line.find("#fragment shader") != std::string::npos)
-            type = Fragment;
-        else ss[(unsigned int)type] << line<<'\n';
-    }
-
-    return { ss[0].str(),ss[1].str() };
-}
-
-
-void PressESCtoClose(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 }

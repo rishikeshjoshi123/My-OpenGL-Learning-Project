@@ -1,5 +1,5 @@
 #include"IndexBuffer.h"
-#include"Shader.h"
+#include"Renderer.h"
 
 IndexBuffer::IndexBuffer(unsigned int count, unsigned int* data)
 {
