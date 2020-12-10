@@ -45,6 +45,11 @@ unsigned int BufferLayout::GetStride()
 	return 0;
 }
 
+unsigned int BufferLayout::GetStrideCount()
+{
+	return m_stride;
+}
+
 unsigned int GetSize(unsigned int type)
 {
 	switch (type)

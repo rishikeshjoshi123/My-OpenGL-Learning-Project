@@ -7,6 +7,10 @@
 #include<sstream>
 #include<unordered_map>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 struct ShaderSource
 {
 	std::string vs;
@@ -25,7 +29,9 @@ public:
 
 	void Bind() const;
 	void Unbind() const;
-	void SetUniform(std::string  name, float v1, float v2, float v3, float v4) const;
+	void SetUniform_mat4(const std::string &name, const glm::mat4& matrix);
+	void SetUniform4f(std::string  name, float v1, float v2, float v3, float v4) const;
+	void SetUniform1i(std::string name, int value);
 };
 ShaderSource GetShaders(std::string path);
 unsigned int CreateShaderProgram(std::string, std::string);

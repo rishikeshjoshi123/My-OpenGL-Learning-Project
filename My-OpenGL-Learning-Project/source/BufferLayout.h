@@ -29,4 +29,5 @@ public:
 
 	std::vector<Elements> GetElements() const;
 	unsigned int GetStride();
+	unsigned int GetStrideCount();
 };

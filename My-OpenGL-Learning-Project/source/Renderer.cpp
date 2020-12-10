@@ -26,7 +26,16 @@ void PressESCtoClose(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 }
 
-void Renderer::Draw(VertexArray& vao, IndexBuffer& ibo, Shader& ShaderProgram) const
+void Renderer::Draw(const VertexArray& vao, const  Shader& ShaderProgram) const
+{
+	ShaderProgram.Bind();
+	vao.Bind();
+	
+	glDrawArrays(GL_TRIANGLES, 0, vao.GetBufferSize() / vao.GetStrideCount());
+
+}
+
+void Renderer::Draw(const VertexArray& vao, const  Shader& ShaderProgram, const IndexBuffer& ibo) const
 {
 	ShaderProgram.Bind();
 	vao.Bind();
@@ -37,6 +46,6 @@ void Renderer::Draw(VertexArray& vao, IndexBuffer& ibo, Shader& ShaderProgram) c
 
 void Renderer::Clear() const
 {
-	glClearColor(0.9f, 0.4f, 0.5f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }

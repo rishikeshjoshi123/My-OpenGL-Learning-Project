@@ -24,6 +24,7 @@ void PressESCtoClose(GLFWwindow * window);
 class Renderer
 {
 public:
-    void Draw(VertexArray& vao, IndexBuffer& ibo, Shader &shader) const;
+    void Draw(const VertexArray& vao, const  Shader& ShaderProgram) const;
+    void Draw(const VertexArray& vao, const Shader &shader,const IndexBuffer& ibo) const;
     void Clear() const;
 };

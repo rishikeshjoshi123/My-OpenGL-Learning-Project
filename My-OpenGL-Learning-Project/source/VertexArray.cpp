@@ -2,12 +2,15 @@
 #include"BufferLayout.h"
 
 VertexArray::VertexArray()
+	:m_stridecount(0)
 {
 	glGenVertexArrays(1, &ID);
 }
 
 void VertexArray::AddBufferLayout(VertexBuffer &vbo, BufferLayout &layout)
 {
+	m_stridecount = layout.GetStrideCount();
+	m_buffersize = vbo.GetBufferSize();
 	Bind();
 
 	const std::vector<Elements>& e = layout.GetElements();
@@ -34,3 +37,14 @@ void VertexArray::Unbind() const
 {
 	glBindVertexArray(0);
 }
+
+unsigned int VertexArray::GetStrideCount() const
+{
+	return m_stridecount;
+}
+
+unsigned int VertexArray::GetBufferSize() const
+{
+	return m_buffersize;
+}
+
